@@ -1,6 +1,9 @@
 # engine/heuristics.py
 import yara
 from typing import Dict, List, Any, Tuple
+from extractors.manifest_extractor import ManifestExtractor
+from extractors.dex_extractor import DexExtractor
+
 
 class HeuristicEngine:
     """Deterministic Software Engineering rule engine for malware detection."""
@@ -9,8 +12,12 @@ class HeuristicEngine:
         
         # Compile YARA rules once during initialization
         self.yara_rules = yara.compile(filepath=yara_rules_path)
+        
+    def analyze(self, temp_path) -> Dict[str, Any]:
 
-    def analyze(self, manifest_data: Dict[str, Any], dex_bytes: List[Tuple[str, bytes]]) -> Dict[str, Any]:
+        manifest_data = ManifestExtractor.extract(temp_path)
+        dex_bytes = DexExtractor.extract_dex_bytes(temp_path)
+
         triggered_rules = []
         heuristic_score = 0.0
 

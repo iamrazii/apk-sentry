@@ -39,7 +39,8 @@ class MLClassifier:
                 "Please pass `feature_cols` explicitly when initializing MLClassifier."
             )
 
-    def predict( self, extracted_permissions: List[str], threshold = None) -> Dict[str, Any]:
+    def predict( self, apk_path, threshold = None) -> Dict[str, Any]:
+        extracted_permissions = self.extractor.extract_permissions_from_apk(apk_path)
         input_df: pd.DataFrame = self.extractor.map_to_feature_vector(extracted_permissions)
         if threshold:
             self.threshold = threshold
