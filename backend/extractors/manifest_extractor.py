@@ -19,13 +19,18 @@ class ManifestExtractor:
 
         # Parse structural intent actions accurately without string casting
         intent_actions = set()
-        for component_type in ["receiver", "service", "activity"]:
-            getter = getattr(apk_obj, f"get_{component_type}s")
-            for comp in getter():
+
+        component_getters = [
+            ("receiver", apk_obj.get_receivers),
+            ("service", apk_obj.get_services),
+            ("activity", apk_obj.get_activities),
+        ]
+
+        for component_type, getter_func in component_getters:
+            for comp in getter_func():
                 filters = apk_obj.get_intent_filters(component_type, comp)
                 if filters and "action" in filters:
                     intent_actions.update(filters["action"])
-
         # Check for persistence and interception triggers
         intent_triggers = {
             "boot_completed": "android.intent.action.BOOT_COMPLETED" in intent_actions,
