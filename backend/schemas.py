@@ -1,5 +1,5 @@
-from pydantic import BaseModel,Field
-from typing import List, Dict
+from pydantic import BaseModel, Field
+from typing import List, Dict, Any
 
 
 class FlaggedPermission(BaseModel):
@@ -8,15 +8,18 @@ class FlaggedPermission(BaseModel):
     feature_importance: float
 
 
-
 class RiskAssessmentResponse(BaseModel):
     filename: str
-    is_malware: int
-    verdict: str
-    confidence: float
-    malware_probability: float
-    threshold_used: float
-    flagged_permissions: List[FlaggedPermission] = Field(
-        default_factory=list, 
-        description="List of requested dangerous permissions that triggered the alert"
+    is_malware: int = Field(
+        ..., 
+        description="-1: Suspicious, 0: Benign/Safe, 1: Malware"
     )
+    verdict: str
+    risk_tier: str
+    confidence: float
+    static_score: float
+    ml_score: float
+    total_score: float
+    thresholds_used: Dict[str, float]
+    audit_trail: Dict[str, Any]
+    triggered_rules: List[Dict[str, Any]]
