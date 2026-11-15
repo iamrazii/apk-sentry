@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-[#FFF3EF] text-[#1C1817] antialiased selection:bg-[#FF7E67] selection:text-white;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  }
+}
+
+/* Glowing pulse for security scanner in coral peach tone */
+@keyframes coralPulse {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(255, 126, 103, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 126, 103, 0.55);
+  }
+}
+
+.coral-glow {
+  animation: coralPulse 3s infinite ease-in-out;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #14100F;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2D2321;
+  border-radius: 3px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #FF7E67;
+}
