@@ -9,7 +9,6 @@ print("\n--- Target Class Distribution ---")
 print(df['Class'].value_counts(dropna=False))
 print(df['Class'].value_counts(normalize=True) * 100)
 
-# 3. Separate Metadata vs. Feature Columns
 metadata_cols = ['App', 'Package', 'Description', 'Related apps']
 target_col = 'Class'
 
@@ -17,12 +16,10 @@ permission_cols = [col for col in df.columns if col not in metadata_cols + [targ
 
 print(f"\nNumber of permission flag features: {len(permission_cols)}")
 
-# 4. Check missing values across feature columns
 missing_counts = df.isna().sum()
 print("\n--- Columns with Missing Values ---")
 print(missing_counts[missing_counts > 0])
 
-# 5. Permission Sparsity Check (How frequently are permissions requested?)
 permission_sum = df[permission_cols].sum().sort_values(ascending=False)
 print("\n--- Top 10 Most Frequently Requested Permissions ---")
 print(permission_sum.head(10))

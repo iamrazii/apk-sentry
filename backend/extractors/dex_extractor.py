@@ -32,15 +32,12 @@ class DexExtractor:
             if not file_bytes:
                 continue
 
-            # 1. DEX Bytecode
             if file_path.endswith('.dex'):
                 dex_payloads.append((file_path, file_bytes))
             
-            # 2. Native C/C++ Libraries
             elif file_path.endswith('.so'):
                 native_libs.append((file_path, file_bytes))
 
-            # 3. Encrypted/Packed Asset Payloads (Models, Droppers, Encrypted DEX)
             elif file_path.startswith('assets/'):
                 entropy = cls.calculate_entropy(file_bytes)
                 if entropy > 7.2:  # Mathematical threshold for encrypted/compressed content
